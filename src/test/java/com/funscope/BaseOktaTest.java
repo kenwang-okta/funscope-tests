@@ -1,8 +1,9 @@
 package com.funscope;
 
 import com.funscope.resources.TestEnvironment;
+import com.okta.authn.helpers.AuthNHelper;
+import com.okta.authn.helpers.SessionsHelper;
 import io.restassured.RestAssured;
-import io.restassured.specification.RequestSpecification;
 import org.apache.commons.lang3.ObjectUtils;
 import org.junit.Before;
 import org.junit.Rule;
@@ -15,19 +16,19 @@ public class BaseOktaTest {
     public TestResourceRule testResourceRule = new TestResourceRule();
 
     @TestResource("environment")
-    protected TestEnvironment testEnvironment;
+    protected TestEnvironment environment;
+
+    protected AuthNHelper authNHelper;
+    protected SessionsHelper sessionsHelper;
 
     @Before
     public void setup() {
-        RestAssured.baseURI = testEnvironment.getBaseUrl();
-        RestAssured.basePath = ObjectUtils.firstNonNull(testEnvironment.getBasePath(), "/api/v1");
-        RestAssured.port = ObjectUtils.firstNonNull(testEnvironment.getPort(), -1);
-    }
+        RestAssured.baseURI = environment.getBaseUrl();
+        RestAssured.basePath = ObjectUtils.firstNonNull(environment.getBasePath(), "/api/v1");
+        RestAssured.port = ObjectUtils.firstNonNull(environment.getPort(), -1);
 
-    protected RequestSpecification with() {
-        return RestAssured.with()
-                .header("Accept", "application/json")
-                .header("Content-Type", "application/json");
+        authNHelper = new AuthNHelper(environment);
+        sessionsHelper = new SessionsHelper(environment);
     }
 
 }
