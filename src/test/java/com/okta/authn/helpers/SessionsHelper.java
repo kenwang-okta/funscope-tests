@@ -52,10 +52,30 @@ public class SessionsHelper extends RequestsHelper {
     public ValidatableResponse deleteSessionWithApiToken(String sessionId) {
         return withApiToken()
                 .with().pathParam("sessionId", sessionId)
-                .when()
-                .request(Method.DELETE, "/sessions/{sessionId}")
+                .when().request(Method.DELETE, "/sessions/{sessionId}")
                 .then()
+                .log().body()
                 .assertThat()
                 .statusCode(204);
+    }
+
+    public ValidatableResponse createSession(String username, String password) {
+        return with().body(ImmutableMap.of("username", username, "password", password))
+                .when().request(Method.POST, "/sessions")
+                .then()
+                .log().body()
+                .assertThat()
+                .statusCode(200)
+                .body("id", is(not(nullValue())));
+    }
+
+    public ValidatableResponse createSessionWithApiToken(String username, String password) {
+        return withApiToken().body(ImmutableMap.of("username", username, "password", password))
+                .when().request(Method.POST, "/sessions")
+                .then()
+                .log().body()
+                .assertThat()
+                .statusCode(200)
+                .body("id", is(not(nullValue())));
     }
 }

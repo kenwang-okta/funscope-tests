@@ -2,7 +2,6 @@ package com.funscope;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
-import org.junit.rules.TestRule;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
@@ -63,10 +62,5 @@ public class TestResourceRunner extends BlockJUnit4ClassRunner {
                 method.invokeExplosively(test, args);
             }
         };
-    }
-
-    @Override
-    protected List<TestRule> getTestRules(Object target) {
-        return super.getTestRules(target);
     }
 }
