@@ -6,7 +6,9 @@ import io.restassured.specification.RequestSpecification;
 import org.apache.commons.lang3.ObjectUtils;
 import org.junit.Before;
 import org.junit.Rule;
+import org.junit.runner.RunWith;
 
+@RunWith(TestResourceRunner.class)
 public class BaseOktaTest {
 
     @Rule

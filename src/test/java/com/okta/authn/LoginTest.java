@@ -12,11 +12,8 @@ import static org.hamcrest.Matchers.is;
 
 public class LoginTest extends BaseOktaTest {
 
-    @TestResource("user")
-    private TestUser testUser;
-
     @Test
-    public void testSecurityQuestionMFAAuthenticationFlow() {
+    public void testSecurityQuestionMFAAuthenticationFlow(@TestResource("user") TestUser testUser) {
         ValidatableResponse response = with()
                 .body(ImmutableMap.of("username", testUser.getLogin(), "password", testUser.getPassword()))
                 .when()
@@ -42,5 +39,7 @@ public class LoginTest extends BaseOktaTest {
                 .statusCode(200)
                 .body("status", is("SUCCESS"));
     }
+
+
 
 }
